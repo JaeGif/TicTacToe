@@ -1,0 +1,75 @@
+@font-face {
+    font-family: 'kamryn';
+    src: url(./fonts/Kamryn3DItalic-JRK6E.ttf);
+}
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+}
+header {
+    height: fit-content;
+    width: 100vw;
+    background-color: white;
+    text-align: center;
+}
+h1 {
+    font-family: 'kamryn', Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 3em;
+    line-height: 1;
+}
+.options-bar {
+    height: 5vh;
+    width: 100%;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 5px;
+}
+.board-container {
+    height: 70vh;
+    width: 100vw;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+.board {
+    background-color: black;
+    height: 100%;
+    width: 40%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 5px;
+}
+.square {
+    background-color: blue;
+}
+footer {
+    height: 8vh;
+    width: 100vw;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .9em;
+    line-height: .7;
+    border-top: ridge 1px var(--main-color);
+}
+a, a:link, a:visited { 
+    text-decoration: none;
+    color: black;
+}
+img {
+    margin-bottom: -15px;
+}
+button {
+    height: 3em;
+    width: fit-content;
+    padding: 5px;
+    font-family: 'kamryn', Verdana, Geneva, Tahoma, sans-serif;
+    color: black;
+}
