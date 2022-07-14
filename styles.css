@@ -8,7 +8,7 @@ body {
     background-color: black;
 }
 header {
-    height: fit-content;
+    height: 24vh;
     width: 100vw;
     background-color: white;
     text-align: center;
@@ -19,17 +19,16 @@ h1 {
     line-height: 1;
 }
 .options-bar {
-    height: 5vh;
     width: 100%;
-    background-color: red;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 15px;
     padding: 5px;
 }
 .board-container {
-    height: 70vh;
+    height: 65vh;
     width: 100vw;
     background-color: green;
     display: flex;
@@ -51,7 +50,7 @@ h1 {
     width: 100%;
 }
 footer {
-    height: 8vh;
+    height: 6vh;
     width: 100vw;
     background-color: red;
     display: flex;
@@ -70,8 +69,25 @@ img {
 }
 button {
     height: 3em;
-    width: fit-content;
+    width: 75px;
     padding: 5px;
     font-family: 'kamryn', Verdana, Geneva, Tahoma, sans-serif;
     color: black;
+}
+#x, #y {
+    width: 75px;
+}
+.inactive {
+    background-color: hotpink;
+    color: blue;
+}
+.active {
+    background-color: blue;
+    color: hotpink;
+}
+.options-bar > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }

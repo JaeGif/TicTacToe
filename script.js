@@ -29,5 +29,42 @@ const gameBoard = (() => {
 })();
 
 const gameController = (() => {
-    // this fn will 
+    // this object will initialize players, and check win states
 })();
+
+const displayController = (() => {
+    // this object will add listeners to each button and update the display with X or O based on which button is clicked and 
+    // which player is playing.
+    const assignListeners = () => {
+        const xSignButton = document.getElementById('x')
+        const ySignButton = document.getElementById('y')
+        const aiButton = document.getElementById('ai')
+
+        xSignButton.addEventListener('click', () => {
+            playerFactory('x')
+        })
+        ySignButton.addEventListener('click', () => {
+            playerFactory('y')
+        })
+        for (let i=0; i<= gameBoard.fieldNodeList.length - 1; i++) {
+            gameBoard.fieldNodeList[i].addEventListener('click', () => {
+                console.log(`clicked ${i}`)
+            })
+        }
+    }
+    return {
+        assignListeners
+    }
+})();
+
+displayController.assignListeners()
+/**
+ * @param {string} sign - Players selected sign, X or O
+ */
+const Player = (sign) => {       
+    let _sign = sign
+    const selectedSign = () => _sign
+    const changeSign = () => {
+        
+    }
+}
