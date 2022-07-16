@@ -32,7 +32,6 @@ const gameBoard = (() => {
         oSignButton.className = 'inactive';
         const humanPlayer = Player('x');
         const aiPlayer = Player('o');
-        console.log(humanPlayer, aiPlayer);
         boardInitialized(humanPlayer);
 
         return {
@@ -45,7 +44,6 @@ const gameBoard = (() => {
         xSignButton.className = 'inactive';
         const humanPlayer = Player('o');
         const aiPlayer = Player('x');
-        console.log(humanPlayer, aiPlayer);
         boardInitialized(humanPlayer);
         return {
             humanPlayer,
@@ -72,9 +70,8 @@ const displayController = (() => {
     const updateFieldDisplay = (field, player) => {
         const _player = player
         const _currentSign = _player.playerSign()
-        console.log(_currentSign)
-/*         console.log(`${_player.playerSign()}`)
-        field.target.childNodes.textContent = `${_player.playerSign()}` */
+        console.log(`${_player.playerSign()}`)
+        field.target.childNodes.textContent = `${_player.playerSign()}`
     }
     return {
         updateFieldDisplay,
