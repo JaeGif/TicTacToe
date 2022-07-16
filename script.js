@@ -11,79 +11,94 @@
 
 const gameBoard = (() => {
     let _board = new Array(9)  // board is an array of 9 spaces
-    const fieldNodeList = document.querySelectorAll('.square')
-    const assignNodeToBoard = () => {
+    const fieldNodeList = document.querySelectorAll('.square');
+    const boardNodes = () => {
         for (let i=0; i <= (fieldNodeList.length -1); i++) {   // iterate across the nodeList and make a new array to be manipulated
             _board[i] = fieldNodeList[i]                        // without breaking the nodelist
         }   return _board
-    }
+    };
+    
     /**
     * @param {int} fieldIndex - index of targeted square
     */
-    const getFieldNode = (fieldIndex) => {return _board[fieldIndex]}   // get's the individual square by index when referenced.
-    return {                    // needs to return anything to be used outside of the fn
-        fieldNodeList,
-        assignNodeToBoard,
-        getFieldNode
-    }
-})();
+    const getFieldNode = (fieldIndex) => {return _board[fieldIndex]};   // get's the individual square by index when referenced.
+    
+    const xSignButton = document.getElementById('x')
+    const oSignButton = document.getElementById('o')
+    const aiButton = document.getElementById('ai')
 
-const gameController = (() => {
-    // this object will initialize players, and check win states
+    xSignButton.addEventListener('click', () => {
+        xSignButton.className = 'active';
+        oSignButton.className = 'inactive';
+        const humanPlayer = Player('x');
+        const aiPlayer = Player('o');
+        console.log(humanPlayer, aiPlayer);
+    })
+    oSignButton.addEventListener('click', () => {
+        oSignButton.className = 'active';
+        xSignButton.className = 'inactive';
+        const humanPlayer = Player('o');
+        const aiPlayer = Player('x');
+        console.log(humanPlayer, aiPlayer);
+    })
+    for (let i=0; i<= fieldNodeList.length - 1; i++) {
+        fieldNodeList[i].addEventListener('click', () => {
+            console.log(i)
+            return i
+            })
+        }
+    return {                   
+        fieldNodeList,
+        boardNodes,
+        getFieldNode
+    };
 })();
 
 const displayController = (() => {
-    // this object will add listeners to each button and update the display with X or O based on which button is clicked and 
+    // updates the display with X or O based on which button is clicked and 
     // which player is playing.
-    const assignListeners = () => {
-        const xSignButton = document.getElementById('x')
-        const oSignButton = document.getElementById('o')
-        const aiButton = document.getElementById('ai')
-
-        xSignButton.addEventListener('click', () => {
-            xSignButton.className = 'active'
-            oSignButton.className = 'inactive'
-            const humanPlayer = Player('x')
-            const aiPlayer = Player('o')
-            console.log(humanPlayer, aiPlayer)
-        })
-        oSignButton.addEventListener('click', () => {
-            oSignButton.className = 'active'
-            xSignButton.className = 'inactive'
-            const humanPlayer = Player('o')
-            const aiPlayer = Player('x')
-            console.log(humanPlayer, aiPlayer)
-        })
-        for (let i=0; i<= gameBoard.fieldNodeList.length - 1; i++) {
-            gameBoard.fieldNodeList[i].addEventListener('click', () => {
-                console.log(`clicked ${i}`)
-            })
-        }
-    }
-    return {
-        assignListeners
-    }
 })();
 
-displayController.assignListeners()
+const gameController = (() => {
+    // this object will keep track of field states, and check win states
+    // function to track empty fields in an array
+    const _boardNodes = gameBoard.boardNodes(); 
+    let _emptyFields = _boardNodes;
+
+    const clickedField = () => {
+        if (_fields) {
+            console.log(_fields)
+        }
+        //pass
+    };
+    const updateEmptyFields = () => {
+        // take clicked field from displayControllers listeners
+    };
+})();
+
+
 
 /**
  * @param {string} currentSign - Players selected sign, X or O
  */
-const Player = (currentSign) => {       
-    let _sign = currentSign
+const Player = (currentSign) => {       // _sign is a private variable that is not returned, but it's value is occassionally returned
+    let _sign = currentSign;
     const playerSign = () => {
         return _sign
-    }
+    };
     const changeSign = (_sign) => {
         if (_sign === 'x') {
             return _sign = 'o'
         } else if (_sign === 'o') {
             return _sign = 'x'
         }
-    }
+    };
     return {
         playerSign,
         changeSign
-    }
+    };
+};
+const aiLogic = () => {
+    const randomField = Math.floor(Math.random() * 9);      // selects random int from 0 to 8
+
 }
