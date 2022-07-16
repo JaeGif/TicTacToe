@@ -37,16 +37,22 @@ const displayController = (() => {
     // which player is playing.
     const assignListeners = () => {
         const xSignButton = document.getElementById('x')
-        const ySignButton = document.getElementById('y')
+        const oSignButton = document.getElementById('o')
         const aiButton = document.getElementById('ai')
 
         xSignButton.addEventListener('click', () => {
             xSignButton.className = 'active'
-            playerFactory('x')
+            oSignButton.className = 'inactive'
+            const humanPlayer = Player('x')
+            const aiPlayer = Player('o')
+            console.log(humanPlayer, aiPlayer)
         })
-        ySignButton.addEventListener('click', () => {
-            ySignButton.className = 'active'
-            playerFactory('y')
+        oSignButton.addEventListener('click', () => {
+            oSignButton.className = 'active'
+            xSignButton.className = 'inactive'
+            const humanPlayer = Player('o')
+            const aiPlayer = Player('x')
+            console.log(humanPlayer, aiPlayer)
         })
         for (let i=0; i<= gameBoard.fieldNodeList.length - 1; i++) {
             gameBoard.fieldNodeList[i].addEventListener('click', () => {
@@ -66,17 +72,18 @@ displayController.assignListeners()
  */
 const Player = (currentSign) => {       
     let _sign = currentSign
-    const selectedSign = () => _sign
+    const playerSign = () => {
+        return _sign
+    }
     const changeSign = (_sign) => {
         if (_sign === 'x') {
-            return _sign = 'y'
-        } else if (_sign === 'y') {
+            return _sign = 'o'
+        } else if (_sign === 'o') {
             return _sign = 'x'
         }
-    } 
+    }
     return {
-        selectedSign,
+        playerSign,
         changeSign
     }
 }
-console.log(Player('x').changeSign('y'))
