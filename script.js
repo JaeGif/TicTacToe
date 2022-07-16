@@ -41,9 +41,11 @@ const displayController = (() => {
         const aiButton = document.getElementById('ai')
 
         xSignButton.addEventListener('click', () => {
+            xSignButton.className = 'active'
             playerFactory('x')
         })
         ySignButton.addEventListener('click', () => {
+            ySignButton.className = 'active'
             playerFactory('y')
         })
         for (let i=0; i<= gameBoard.fieldNodeList.length - 1; i++) {
@@ -58,13 +60,23 @@ const displayController = (() => {
 })();
 
 displayController.assignListeners()
+
 /**
- * @param {string} sign - Players selected sign, X or O
+ * @param {string} currentSign - Players selected sign, X or O
  */
-const Player = (sign) => {       
-    let _sign = sign
+const Player = (currentSign) => {       
+    let _sign = currentSign
     const selectedSign = () => _sign
-    const changeSign = () => {
-        
+    const changeSign = (_sign) => {
+        if (_sign === 'x') {
+            return _sign = 'y'
+        } else if (_sign === 'y') {
+            return _sign = 'x'
+        }
+    } 
+    return {
+        selectedSign,
+        changeSign
     }
 }
+console.log(Player('x').changeSign('y'))
