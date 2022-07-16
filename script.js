@@ -33,6 +33,12 @@ const gameBoard = (() => {
         const humanPlayer = Player('x');
         const aiPlayer = Player('o');
         console.log(humanPlayer, aiPlayer);
+        boardInitialized(humanPlayer);
+
+        return {
+            humanPlayer,
+            aiPlayer
+        };
     })
     oSignButton.addEventListener('click', () => {
         oSignButton.className = 'active';
@@ -40,23 +46,39 @@ const gameBoard = (() => {
         const humanPlayer = Player('o');
         const aiPlayer = Player('x');
         console.log(humanPlayer, aiPlayer);
+        boardInitialized(humanPlayer);
+        return {
+            humanPlayer,
+            aiPlayer
+        };
     })
-    for (let i=0; i<= fieldNodeList.length - 1; i++) {
-        fieldNodeList[i].addEventListener('click', () => {
-            console.log(i)
-            return i
-            })
-        }
+    const boardInitialized = (player) => {
+        for (let i=0; i<= fieldNodeList.length - 1; i++) {
+            fieldNodeList[i].addEventListener('click', (e) => {
+                displayController.updateFieldDisplay(e, player);
+                })
+            }
+    }
     return {                   
         fieldNodeList,
         boardNodes,
-        getFieldNode
+        getFieldNode,
     };
 })();
 
 const displayController = (() => {
     // updates the display with X or O based on which button is clicked and 
     // which player is playing.
+    const updateFieldDisplay = (field, player) => {
+        const _player = player
+        const _currentSign = _player.playerSign()
+        console.log(_currentSign)
+/*         console.log(`${_player.playerSign()}`)
+        field.target.childNodes.textContent = `${_player.playerSign()}` */
+    }
+    return {
+        updateFieldDisplay,
+    }
 })();
 
 const gameController = (() => {
