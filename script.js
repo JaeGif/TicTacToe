@@ -10,18 +10,19 @@
 // makes the array and ties the individual squares to an index in the array
 
 const gameBoard = (() => {
-    let _board = new Array(9)  // board is an array of 9 spaces
+    let board = new Array(9).fill(null)  // board is an array of 9 spaces
     const fieldNodeList = document.querySelectorAll('.square');
-    const boardNodes = () => {
-        for (let i=0; i <= (fieldNodeList.length -1); i++) {   // iterate across the nodeList and make a new array to be manipulated
-            _board[i] = fieldNodeList[i]                        // without breaking the nodelist
-        }   return _board
-    };
+
+    const setField = (indexID, sign) => {
+        board[indexID] = sign
+        gameController.updateEmptyFields()
+        console.log(board)
+    }
     
     /**
     * @param {int} fieldIndex - index of targeted square
     */
-    const getFieldNode = (fieldIndex) => {return _board[fieldIndex]};   // get's the individual square by index when referenced.
+    const getFieldNode = (fieldIndex) => {return board[fieldIndex]};   // get's the individual square by index when referenced.
     
     const xSignButton = document.getElementById('x')
     const oSignButton = document.getElementById('o')
@@ -51,18 +52,20 @@ const gameBoard = (() => {
         };
     })
     const boardInitialized = (player) => {
-        for (let i=0; i<= _board.length - 1; i++) {
-            _board[i].addEventListener('click', (e) => {
-                _board[i].id = `${i}`
-                _board[i].classList.add(`${player.playerSign()}`)
-                gameController.clickedField(e, player)
+        for (let i=0; i<= fieldNodeList.length - 1; i++) {
+            fieldNodeList[i].addEventListener('click', (e) => {
+                fieldNodeList[i].id = `${i}`;
+                fieldNodeList[i].classList.add(`${player.playerSign()}`);
+                setField(i, player.playerSign());
                 displayController.updateFieldDisplay(e, player);
+        
                 })
             }
     }
     return {                   
         boardInitialized,
-        boardNodes,
+        board,
+        fieldNodeList,
         getFieldNode,
     };
 })();
@@ -83,18 +86,19 @@ const displayController = (() => {
 const gameController = (() => {
     // this object will keep track of field states, and check win states
     // function to track empty fields in an array
-    const boardNodes = gameBoard.boardNodes(); 
-    let _emptyFields = boardNodes;
-    console.log(_emptyFields)
-    const clickedField = (field, player) => {
-        _emptyFields = field.target
-        }
-        //pass
+
     const updateEmptyFields = () => {
-        // take clicked field from displayControllers listeners
+        const emptyFields = []
+        gameBoard.board.filter((element, index) => {
+            if (element === null) {
+                emptyFields.push(index)
+            }
+        })
+        console.log(emptyFields)
     };
     return {
-        clickedField,
+        updateEmptyFields,
+
     }
 })();
 
