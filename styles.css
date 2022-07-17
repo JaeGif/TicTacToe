@@ -29,7 +29,7 @@ h1 {
 }
 .board-container {
     height: 65vh;
-    width: 100vw;
+    width: 97.24vw;
     background-color: green;
     display: flex;
     justify-content: center;
@@ -40,9 +40,9 @@ h1 {
     height: 100%;
     width: 40%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 5px;
+    grid-template-columns: minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
+    grid-template-rows: minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
+    grid-gap: 5px;
 }
 .square {
     background-color: blue;
@@ -71,8 +71,10 @@ button {
     height: 3em;
     width: 75px;
     padding: 5px;
-    font-family: 'kamryn', Verdana, Geneva, Tahoma, sans-serif;
     color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #x, #o {
     width: 75px;
@@ -90,4 +92,7 @@ button {
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+.square p {
+    font-size: 7em;
 }

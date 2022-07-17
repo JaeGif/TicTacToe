@@ -51,14 +51,17 @@ const gameBoard = (() => {
         };
     })
     const boardInitialized = (player) => {
-        for (let i=0; i<= fieldNodeList.length - 1; i++) {
-            fieldNodeList[i].addEventListener('click', (e) => {
+        for (let i=0; i<= _board.length - 1; i++) {
+            _board[i].addEventListener('click', (e) => {
+                _board[i].id = `${i}`
+                _board[i].classList.add(`${player.playerSign()}`)
+                gameController.clickedField(e, player)
                 displayController.updateFieldDisplay(e, player);
                 })
             }
     }
     return {                   
-        fieldNodeList,
+        boardInitialized,
         boardNodes,
         getFieldNode,
     };
@@ -70,10 +73,8 @@ const displayController = (() => {
     const updateFieldDisplay = (field, player) => {
         const _player = player
         const _currentSign = _player.playerSign()
-        console.log(`${_player.playerSign()}`)
-        field.target.firstChild.textContent = `${_player.playerSign()}`         // currently updates the fields. childNodes requires an index because
-                                                                                // it returns a list. firstChild works well here as there's only 1 node.
-    }
+        field.target.firstChild.textContent = `${_currentSign}`         // currently updates the fields. childNodes requires an index because                                                                         // it returns a list. firstChild works well here as there's only 1 node.
+    }  
     return {
         updateFieldDisplay,
     }
@@ -82,18 +83,19 @@ const displayController = (() => {
 const gameController = (() => {
     // this object will keep track of field states, and check win states
     // function to track empty fields in an array
-    const _boardNodes = gameBoard.boardNodes(); 
-    let _emptyFields = _boardNodes;
-
-    const clickedField = () => {
-        if (_fields) {
-            console.log(_fields)
+    const boardNodes = gameBoard.boardNodes(); 
+    let _emptyFields = boardNodes;
+    console.log(_emptyFields)
+    const clickedField = (field, player) => {
+        _emptyFields = field.target
         }
         //pass
-    };
     const updateEmptyFields = () => {
         // take clicked field from displayControllers listeners
     };
+    return {
+        clickedField,
+    }
 })();
 
 
