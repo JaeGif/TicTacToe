@@ -71,7 +71,8 @@ const displayController = (() => {
         const _player = player
         const _currentSign = _player.playerSign()
         console.log(`${_player.playerSign()}`)
-        field.target.childNodes.textContent = `${_player.playerSign()}`
+        field.target.firstChild.textContent = `${_player.playerSign()}`         // currently updates the fields. childNodes requires an index because
+                                                                                // it returns a list. firstChild works well here as there's only 1 node.
     }
     return {
         updateFieldDisplay,
