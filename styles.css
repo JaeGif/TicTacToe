@@ -1,20 +1,26 @@
+:root {
+    --grey-color: rgba(20, 20, 20, .6);
+    --dark-blue: #0000A3;
+    --highlight-color: #DF265E;
+}
 body {
     height: 100vh;
     width: 100vw;
-    background-color: white;
+    background-color: var(--grey-color);
 }
 header {
-    height: 24vh;
+    height: 11vh;
     width: 100vw;
     background-color: white;
     text-align: center;
 }
 h1 {
-    font-size: 3em;
+    font-size: 2em;
     line-height: 1;
 }
 .options-bar {
     width: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +29,7 @@ h1 {
     padding: 5px;
 }
 .board-container {
-    height: 65vh;
+    height: 75vh;
     width: 97.24vw;
     background-color: white;
     display: flex;
@@ -40,19 +46,18 @@ h1 {
     grid-gap: 5px;
 }
 .square {
-    background-color: grey;
+    background-color: var(--grey-color);
     height: 100%;
     width: 100%;
 }
 footer {
-    height: 6vh;
+    height: 7vh;
     width: 100vw;
-    background-color: grey;
+    background-color: white;
+    margin-top: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: .9em;
-    line-height: .7;
     border-top: ridge 1px var(--main-color);
 }
 a, a:link, a:visited { 
@@ -91,13 +96,13 @@ button {
 .square p {
     font-size: 7em;
 }
-#hidden-modal {
+#hidden-modal, #hidden-choices{
     display: none;
     flex-direction: column;
     align-items: center;
     position: fixed;
-    left: 40.5;
-    top: 40.5%;
+    top: 25%;
+    margin-top: calc(185.5px/2);
     height: fit-content;
     width: 250px;
     z-index: 1;

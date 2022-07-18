@@ -116,11 +116,16 @@ const gameController = (() => {
 
 const displayController = (() => {
 
+    const aiPlayButton = document.getElementById('ai')
     const xSignButton = document.getElementById('x')
     const oSignButton = document.getElementById('o')
     const scoreDisplayP = document.getElementById('score')
+    const iconSelectModal = document.getElementById('hidden-choices')
     const modal = document.getElementById('hidden-modal')
 
+    aiPlayButton.addEventListener('click', () => {
+        iconSelectModal.style.display = 'flex'
+    })
     const modalWinner = () => {
         modal.style.display = 'flex'
     }
@@ -130,6 +135,7 @@ const displayController = (() => {
         oSignButton.className = 'inactive';
         const playerX = Player('x');
         const playerO = Player('o');
+        iconSelectModal.style.display = 'none';
         return {
             playerX,
             playerO
@@ -141,6 +147,8 @@ const displayController = (() => {
         xSignButton.className = 'inactive';
         const playerO = Player('o');
         const playerX = Player('x');
+        iconSelectModal.style.display = 'none';
+
         return {
             playerX,
             playerO
@@ -163,7 +171,6 @@ const displayController = (() => {
         modalWinner
     }
 })();
-
 
 const Player = (sign) => {
     const playerSign = () => {
