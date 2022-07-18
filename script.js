@@ -156,6 +156,11 @@ const displayController = (() => {
     });
     const updateFieldDisplay = (eventTarget, sign) => {
         eventTarget.target.firstChild.textContent = `${sign}`;
+        if (sign === 'x') {
+            eventTarget.target.firstChild.style.color = '#0000A3'
+        } else {
+            eventTarget.target.firstChild.style.color = '#DF265E'
+        }
     }
     const updateScoreDisplay = (winner) => {
         if (winner === 'draw') {
