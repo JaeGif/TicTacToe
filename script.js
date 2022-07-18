@@ -25,24 +25,29 @@ const gameController = (() => {
             fieldNodeList[i].id = `${i}`;
             playRound(i, e, takeTurns());
             updateEmptyFields();
-            console.log('passed')
-        })
+        }, {once: true})            // slick way to make the event only fire after the first click
     };
 
     const playRound = (fieldIndex, target, sign) => {
+        if (gameisOver) {
+            return;
+        }
         gameBoard.setField(fieldIndex, sign)
-
         if (checkForWin(fieldIndex)) {
             displayController.updateFieldDisplay(target, sign);
-            console.log('GG')
+            displayController.updateScoreDisplay(sign)
+            gameisOver = true
             return;
+
         }
         if (round < 9) {
             displayController.updateFieldDisplay(target, sign);
             round ++
+
         } else if (round === 9) {
             displayController.updateFieldDisplay(target, sign);
             console.log('draw')
+            gameisOver = true
         }
     }
     
@@ -73,10 +78,18 @@ const gameController = (() => {
             if (element === null) {
                 emptyFields.push(index)
             }
-        })
-        console.log(emptyFields)
+        }) 
+        return emptyFields;
     };
 
+/*     const aiRandomChoices = (emptyFields) => {
+        const aiSign = 'o'
+        console.log(emptyFields)
+        const randomMove = emptyFields[Math.floor(Math.random() * emptyFields.length)];
+        const target = gameBoard.getFieldNode[parseInt(randomMove)]
+        gameBoard.setField(parseInt(randomMove), aiSign)
+        displayController.updateFieldDisplay(target, aiSign)
+    } */
     const takeTurns = () => {
         if (round % 2 === 1) {
             return 'x';
@@ -100,6 +113,8 @@ const displayController = (() => {
 
     const xSignButton = document.getElementById('x')
     const oSignButton = document.getElementById('o')
+    const scoreDisplayP = document.getElementById('score')
+
     xSignButton.addEventListener('click', () => {
         xSignButton.className = 'active';
         oSignButton.className = 'inactive';
@@ -124,8 +139,12 @@ const displayController = (() => {
     const updateFieldDisplay = (eventTarget, sign) => {
         eventTarget.target.firstChild.textContent = `${sign}`;
     }
+    const updateScoreDisplay = (winner) => {
+        scoreDisplayP.textContent = `${winner} wins!`
+    }
     return {
         updateFieldDisplay,
+        updateScoreDisplay,
     }
 })();
 

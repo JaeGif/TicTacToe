@@ -94,6 +94,7 @@ const displayController = (() => {
         const _currentSign = _player.playerSign()
         field.target.firstChild.textContent = `${_currentSign}`         // currently updates the fields. childNodes requires an index because                                                                         // it returns a list. firstChild works well here as there's only 1 node.
     }
+    
     return {
         updateFieldDisplay,
     }
