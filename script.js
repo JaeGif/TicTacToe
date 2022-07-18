@@ -3,8 +3,8 @@ const gameBoard = (() => {
 
     const setField = (indexID, sign) => {
         board[indexID] = sign
-        console.log(board)
    }
+
     const getFieldNode = (fieldIndex) => {return board[fieldIndex]};  
 
     return {
@@ -19,7 +19,11 @@ const gameController = (() => {
     let gameisOver = false
     let round = 1;
     const fieldNodeList = document.querySelectorAll('.square');
+    const resetButton = document.getElementById('play-again')
 
+    resetButton.addEventListener('click', () => {
+        location.reload()
+    })
     for (let i=0; i<= fieldNodeList.length - 1; i++) {
         fieldNodeList[i].addEventListener('click', (e) => {
             fieldNodeList[i].id = `${i}`;
@@ -35,7 +39,7 @@ const gameController = (() => {
         gameBoard.setField(fieldIndex, sign)
         if (checkForWin(fieldIndex)) {
             displayController.updateFieldDisplay(target, sign);
-            displayController.updateScoreDisplay(sign)
+            displayController.updateScoreDisplay(sign);
             gameisOver = true
             return;
 
@@ -45,8 +49,9 @@ const gameController = (() => {
             round ++
 
         } else if (round === 9) {
+            const draw = 'draw'
             displayController.updateFieldDisplay(target, sign);
-            console.log('draw')
+            displayController.updateScoreDisplay(draw);
             gameisOver = true
         }
     }
@@ -114,6 +119,11 @@ const displayController = (() => {
     const xSignButton = document.getElementById('x')
     const oSignButton = document.getElementById('o')
     const scoreDisplayP = document.getElementById('score')
+    const modal = document.getElementById('hidden-modal')
+
+    const modalWinner = () => {
+        modal.style.display = 'flex'
+    }
 
     xSignButton.addEventListener('click', () => {
         xSignButton.className = 'active';
@@ -140,11 +150,17 @@ const displayController = (() => {
         eventTarget.target.firstChild.textContent = `${sign}`;
     }
     const updateScoreDisplay = (winner) => {
-        scoreDisplayP.textContent = `${winner} wins!`
+        if (winner === 'draw') {
+            scoreDisplayP.textContent = `It's a Draw!`
+        } else {
+            scoreDisplayP.textContent = `The winner is ${winner}!`
+        }
+        modalWinner();
     }
     return {
         updateFieldDisplay,
         updateScoreDisplay,
+        modalWinner
     }
 })();
 
