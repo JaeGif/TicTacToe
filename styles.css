@@ -1,68 +1,73 @@
-@font-face {
-    font-family: 'kamryn';
-    src: url(./fonts/Kamryn3DItalic-JRK6E.ttf);
+:root {
+    --grey-color: rgb(15, 15, 15);
+    --dark-blue: #0000A3;
+    --highlight-color: #DF265E;
+    --button-color: rgb(40, 40, 40);
+    --new-dark: rgb(50, 50, 50);
 }
 body {
     height: 100vh;
     width: 100vw;
-    background-color: black;
+    background-color: var(--grey-color);
 }
 header {
-    height: 24vh;
+    height: 11vh;
     width: 100vw;
-    background-color: white;
+    background-color: var(--grey-color);
     text-align: center;
 }
 h1 {
-    font-family: 'kamryn', Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 3em;
+    font-size: 2em;
     line-height: 1;
+    color: white;
 }
 .options-bar {
     width: 100%;
+    height: fit-content;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
     gap: 15px;
     padding: 5px;
 }
 .board-container {
-    height: 65vh;
-    width: 97.24vw;
-    background-color: green;
+    height: 75vh;
+    width: 100vw;
+    background-color: var(--new-dark);
     display: flex;
     justify-content: center;
     padding: 20px;
+    border-top: ridge 5px var(--highlight-color);
+    border-bottom: ridge 5px var(--highlight-color);
+
 }
 .board {
     background-color: black;
     height: 100%;
-    width: 40%;
+    width: 40vw;
+    margin-left: -2vw;
     display: grid;
     grid-template-columns: minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
     grid-template-rows: minmax(100px, 200px) minmax(100px, 200px) minmax(100px, 200px);
     grid-gap: 5px;
 }
 .square {
-    background-color: blue;
+    background-color: var(--new-dark);
     height: 100%;
     width: 100%;
 }
 footer {
-    height: 6vh;
+    height: 7vh;
     width: 100vw;
-    background-color: red;
+    background-color: var(--grey-color);
+    margin-top: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: .9em;
-    line-height: .7;
-    border-top: ridge 1px var(--main-color);
+    color: white;
 }
 a, a:link, a:visited { 
     text-decoration: none;
-    color: black;
+    color: white;
 }
 img {
     margin-bottom: -15px;
@@ -71,21 +76,20 @@ button {
     height: 3em;
     width: 75px;
     padding: 5px;
-    color: black;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--button-color);
 }
 #x, #o {
     width: 75px;
 }
 .inactive {
-    background-color: hotpink;
-    color: blue;
+    color: white;
 }
 .active {
-    background-color: blue;
-    color: hotpink;
+    color: var(--highlight-color);
 }
 .options-bar > div {
     display: flex;
@@ -95,4 +99,22 @@ button {
 }
 .square p {
     font-size: 7em;
+}
+#hidden-modal, #hidden-choices{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 25%;
+    margin-top: calc(185.5px/2);
+    height: fit-content;
+    width: 250px;
+    z-index: 1;
+    padding: 20px;
+    padding-top: 15px;
+    border-radius: 8px;
+    background-color: white;
+}
+#hidden-modal p {
+    font-size: 2em;
 }

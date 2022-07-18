@@ -11,12 +11,15 @@
 </head>
 <body>
     <header>
-        <h1>TicTacToe</h1>
-        <div class="options-bar">
-            <button id="ai">AI Play</button>
-            <div>
-                <button class="inactive" id="x">X</button>
-                <button class="inactive" id="o">O</button>
+        <div id="header-div">
+            <h1>TicTacToe</h1>
+            <div class="options-bar">
+                <button id="ai">AI Play</button>
+                <div id="hidden-choices">
+                    <p>Pick Your Icon</p>
+                    <button class="inactive" id="x">X</button>
+                    <button class="inactive" id="o">O</button>
+                </div>
             </div>
         </div>
     </header>
@@ -32,13 +35,15 @@
             <button class="square"><p></p></button>
             <button class="square"><p></p></button>
         </div>
-<!--         <div>Score Tracker</div>
- -->    </div>
+        <div id="hidden-modal">
+            <p id="score"></p>
+            <button id="play-again">Play Again?</button>
+        </div>
+    </div>
  <footer>
     <div>
         <h3>Copyright 
-            <a href="https://github.com/JaeGif">Jae<img src="./icons/github-icon.png" width="50px" height="auto">
-            </a>2022
+            <a href="https://github.com/JaeGif">Jae<img src="./icons/github-icon.png" width="50px" height="auto"></a>2022
         </h3>
     </div>
 </footer>

@@ -1,91 +1,81 @@
-// will need a few objs. 1st the board is a module that is made 1 time. 
-// players will be made via simple factory
-// board should be an array of area 9, best option for AI I think.
-// logic for checking win might be difficult but I beleive in us lol.
-
-// first, the board obj made as an IFFE
-// IFFE syntax; const nameOfFn = (function(param) {function stuff}(param)); final parenthesis set and semicolon are required!
-
-// this is an immediately invoked function. It is run as soon as it is accessed.
-// makes the array and ties the individual squares to an index in the array
-
 const gameBoard = (() => {
     let board = new Array(9).fill(null)  // board is an array of 9 spaces
-    const fieldNodeList = document.querySelectorAll('.square');
 
     const setField = (indexID, sign) => {
         board[indexID] = sign
-        gameController.updateEmptyFields()
-        console.log(board)
-    }
-    
-    /**
-    * @param {int} fieldIndex - index of targeted square
-    */
-    const getFieldNode = (fieldIndex) => {return board[fieldIndex]};   // get's the individual square by index when referenced.
-    
-    const xSignButton = document.getElementById('x')
-    const oSignButton = document.getElementById('o')
-    const aiButton = document.getElementById('ai')
+   }
 
-    xSignButton.addEventListener('click', () => {
-        xSignButton.className = 'active';
-        oSignButton.className = 'inactive';
-        const humanPlayer = Player('x');
-        const aiPlayer = Player('o');
-        boardInitialized(humanPlayer);
+    const getFieldNode = (fieldIndex) => {return board[fieldIndex]};  
 
-        return {
-            humanPlayer,
-            aiPlayer
-        };
-    })
-    oSignButton.addEventListener('click', () => {
-        oSignButton.className = 'active';
-        xSignButton.className = 'inactive';
-        const humanPlayer = Player('o');
-        const aiPlayer = Player('x');
-        boardInitialized(humanPlayer);
-        return {
-            humanPlayer,
-            aiPlayer
-        };
-    })
-    const boardInitialized = (player) => {
-        for (let i=0; i<= fieldNodeList.length - 1; i++) {
-            fieldNodeList[i].addEventListener('click', (e) => {
-                fieldNodeList[i].id = `${i}`;
-                fieldNodeList[i].classList.add(`${player.playerSign()}`);
-                setField(i, player.playerSign());
-                displayController.updateFieldDisplay(e, player);
-        
-                })
-            }
-    }
-    return {                   
-        boardInitialized,
-        board,
-        fieldNodeList,
-        getFieldNode,
-    };
-})();
-
-const displayController = (() => {
-    // updates the display with X or O based on which button is clicked and 
-    // which player is playing.
-    const updateFieldDisplay = (field, player) => {
-        const _player = player
-        const _currentSign = _player.playerSign()
-        field.target.firstChild.textContent = `${_currentSign}`         // currently updates the fields. childNodes requires an index because                                                                         // it returns a list. firstChild works well here as there's only 1 node.
-    }  
     return {
-        updateFieldDisplay,
+        setField,
+        getFieldNode,
+        board
     }
 })();
+
 
 const gameController = (() => {
-    // this object will keep track of field states, and check win states
-    // function to track empty fields in an array
+    let gameisOver = false
+    let round = 1;
+    const fieldNodeList = document.querySelectorAll('.square');
+    const resetButton = document.getElementById('play-again')
+
+    resetButton.addEventListener('click', () => {
+        location.reload()
+    })
+    for (let i=0; i<= fieldNodeList.length - 1; i++) {
+        fieldNodeList[i].addEventListener('click', (e) => {
+            fieldNodeList[i].id = `${i}`;
+            playRound(i, e, takeTurns());
+            updateEmptyFields();
+        }, {once: true})            // slick way to make the event only fire after the first click
+    };
+
+    const playRound = (fieldIndex, target, sign) => {
+        if (gameisOver) {
+            return;
+        }
+        gameBoard.setField(fieldIndex, sign)
+        if (checkForWin(fieldIndex)) {
+            displayController.updateFieldDisplay(target, sign);
+            displayController.updateScoreDisplay(sign);
+            gameisOver = true
+            return;
+
+        }
+        if (round < 9) {
+            displayController.updateFieldDisplay(target, sign);
+            round ++
+
+        } else if (round === 9) {
+            const draw = 'draw'
+            displayController.updateFieldDisplay(target, sign);
+            displayController.updateScoreDisplay(draw);
+            gameisOver = true
+        }
+    }
+    
+    const checkForWin = (fieldIndex) => {
+        const winConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+          ];
+      
+          return winConditions
+            .filter((combination) => combination.includes(fieldIndex))
+            .some((possibleCombination) =>
+              possibleCombination.every(
+                (index) => gameBoard.getFieldNode(index) === takeTurns()
+              )
+            );
+    }
 
     const updateEmptyFields = () => {
         const emptyFields = []
@@ -93,38 +83,105 @@ const gameController = (() => {
             if (element === null) {
                 emptyFields.push(index)
             }
-        })
-        console.log(emptyFields)
+        }) 
+        return emptyFields;
     };
+
+/*     const aiRandomChoices = (emptyFields) => {
+        const aiSign = 'o'
+        console.log(emptyFields)
+        const randomMove = emptyFields[Math.floor(Math.random() * emptyFields.length)];
+        const target = gameBoard.getFieldNode[parseInt(randomMove)]
+        gameBoard.setField(parseInt(randomMove), aiSign)
+        displayController.updateFieldDisplay(target, aiSign)
+    } */
+    const takeTurns = () => {
+        if (round % 2 === 1) {
+            return 'x';
+        } else {
+            return 'o';
+        }
+    }
     return {
         updateEmptyFields,
-
+        takeTurns,
+        playRound
     }
 })();
 
 
 
-/**
- * @param {string} currentSign - Players selected sign, X or O
- */
-const Player = (currentSign) => {       // _sign is a private variable that is not returned, but it's value is occassionally returned
-    let _sign = currentSign;
-    const playerSign = () => {
-        return _sign
-    };
-    const changeSign = (_sign) => {
-        if (_sign === 'x') {
-            return _sign = 'o'
-        } else if (_sign === 'o') {
-            return _sign = 'x'
+
+
+
+const displayController = (() => {
+
+    const aiPlayButton = document.getElementById('ai')
+    const xSignButton = document.getElementById('x')
+    const oSignButton = document.getElementById('o')
+    const scoreDisplayP = document.getElementById('score')
+    const iconSelectModal = document.getElementById('hidden-choices')
+    const modal = document.getElementById('hidden-modal')
+
+    aiPlayButton.addEventListener('click', () => {
+        iconSelectModal.style.display = 'flex'
+    })
+    const modalWinner = () => {
+        modal.style.display = 'flex'
+    }
+
+    xSignButton.addEventListener('click', () => {
+        xSignButton.className = 'active';
+        oSignButton.className = 'inactive';
+        const playerX = Player('x');
+        const playerO = Player('o');
+        iconSelectModal.style.display = 'none';
+        return {
+            playerX,
+            playerO
+        };
+    });
+
+    oSignButton.addEventListener('click', () => {
+        oSignButton.className = 'active';
+        xSignButton.className = 'inactive';
+        const playerO = Player('o');
+        const playerX = Player('x');
+        iconSelectModal.style.display = 'none';
+
+        return {
+            playerX,
+            playerO
+        };
+    });
+    const updateFieldDisplay = (eventTarget, sign) => {
+        eventTarget.target.firstChild.textContent = `${sign}`;
+        if (sign === 'x') {
+            eventTarget.target.firstChild.style.color = '#0000A3'
+        } else {
+            eventTarget.target.firstChild.style.color = '#DF265E'
         }
+    }
+    const updateScoreDisplay = (winner) => {
+        if (winner === 'draw') {
+            scoreDisplayP.textContent = `It's a Draw!`
+        } else {
+            scoreDisplayP.textContent = `The winner is ${winner}!`
+        }
+        modalWinner();
+    }
+    return {
+        updateFieldDisplay,
+        updateScoreDisplay,
+        modalWinner
+    }
+})();
+
+const Player = (sign) => {
+    const playerSign = () => {
+        return sign
     };
     return {
         playerSign,
-        changeSign
     };
 };
-const aiLogic = () => {
-    const randomField = Math.floor(Math.random() * 9);      // selects random int from 0 to 8
-
-}
