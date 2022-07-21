@@ -1,3 +1,7 @@
+* {
+    margin: 0;
+    padding: 0;
+}
 :root {
     --grey-color: rgb(15, 15, 15);
     --dark-blue: #0000A3;
@@ -106,7 +110,7 @@ button {
     align-items: center;
     position: fixed;
     top: 25%;
-    margin-top: calc(185.5px/2);
+    left: 25%;
     height: fit-content;
     width: 250px;
     z-index: 1;

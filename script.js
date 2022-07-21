@@ -42,7 +42,6 @@ const gameController = (() => {
             displayController.updateScoreDisplay(sign);
             gameisOver = true
             return;
-
         }
         if (round < 9) {
             displayController.updateFieldDisplay(target, sign);
@@ -56,6 +55,29 @@ const gameController = (() => {
         }
     }
     
+    const playAIRound = (fieldIndex, target, sign) => {
+        if (gameisOver) {
+            return;
+        }
+        gameBoard.setField(fieldIndex, sign)
+        if (checkForWin(fieldIndex)) {
+            displayController.updateFieldDisplay(target, sign);
+            displayController.updateScoreDisplay(sign);
+            gameisOver = true
+            return;
+        }
+        if (round < 9) {
+            displayController.updateFieldDisplay(target, sign);
+            round ++
+
+        } else if (round === 9) {
+            const draw = 'draw'
+            displayController.updateFieldDisplay(target, sign);
+            displayController.updateScoreDisplay(draw);
+            gameisOver = true
+        }
+    }
+
     const checkForWin = (fieldIndex) => {
         const winConditions = [
             [0, 1, 2],
@@ -77,6 +99,7 @@ const gameController = (() => {
             );
     }
 
+
     const updateEmptyFields = () => {
         const emptyFields = []
         gameBoard.board.filter((element, index) => {
@@ -87,14 +110,15 @@ const gameController = (() => {
         return emptyFields;
     };
 
-/*     const aiRandomChoices = (emptyFields) => {
-        const aiSign = 'o'
+    const aiRandomChoices = (emptyFields, aiObj) => {
+        const aiSign = aiObj.playerSign()
+        console.log(aiSign)
         console.log(emptyFields)
         const randomMove = emptyFields[Math.floor(Math.random() * emptyFields.length)];
         const target = gameBoard.getFieldNode[parseInt(randomMove)]
         gameBoard.setField(parseInt(randomMove), aiSign)
-        displayController.updateFieldDisplay(target, aiSign)
-    } */
+    }
+
     const takeTurns = () => {
         if (round % 2 === 1) {
             return 'x';
@@ -109,11 +133,6 @@ const gameController = (() => {
     }
 })();
 
-
-
-
-
-
 const displayController = (() => {
 
     const aiPlayButton = document.getElementById('ai')
@@ -124,7 +143,7 @@ const displayController = (() => {
     const modal = document.getElementById('hidden-modal')
 
     aiPlayButton.addEventListener('click', () => {
-        iconSelectModal.style.display = 'flex'
+        iconSelectModal.style.display = 'flex';        
     })
     const modalWinner = () => {
         modal.style.display = 'flex'
@@ -133,27 +152,28 @@ const displayController = (() => {
     xSignButton.addEventListener('click', () => {
         xSignButton.className = 'active';
         oSignButton.className = 'inactive';
-        const playerX = Player('x');
-        const playerO = Player('o');
+        const playerObj = Player('x');
+        const ai = Player('o');
         iconSelectModal.style.display = 'none';
         return {
-            playerX,
-            playerO
+            playerObj,
+            ai,
         };
     });
 
     oSignButton.addEventListener('click', () => {
         oSignButton.className = 'active';
         xSignButton.className = 'inactive';
-        const playerO = Player('o');
-        const playerX = Player('x');
+        const playerObj = Player('o');
+        const ai = Player('x');
         iconSelectModal.style.display = 'none';
 
         return {
-            playerX,
-            playerO
+            playerObj,
+            ai,
         };
     });
+
     const updateFieldDisplay = (eventTarget, sign) => {
         eventTarget.target.firstChild.textContent = `${sign}`;
         if (sign === 'x') {
@@ -173,7 +193,7 @@ const displayController = (() => {
     return {
         updateFieldDisplay,
         updateScoreDisplay,
-        modalWinner
+        modalWinner,
     }
 })();
 
